@@ -1,9 +1,11 @@
 project "ImGui"
 	kind "StaticLib"
 	language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
 
-	targetdir ("%{wks.location}/bin/" .. outputdir .. "/Engine")
-	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/Engine")
+	targetdir ("%{wks.location}/bin/" .. outputdir .. "/Engine/%{prj.name}")
+	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/Engine/%{prj.name}")
 
 	files
 	{
@@ -21,9 +23,12 @@ project "ImGui"
 	}
 
     filter "system:windows"
-        systemversion "latest"
-        cppdialect "C++17"
-        staticruntime "On"
+		systemversion "latest"
 
-	filter {"system:windows", "configurations:Release"}
-		buildoptions "/MT"
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
